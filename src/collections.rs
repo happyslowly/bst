@@ -51,6 +51,10 @@ where
         }
     }
 
+    pub fn get(&self, key: &K) -> Option<&V> {
+        self.tree.search(key).map(|t| t.1)
+    }
+
     pub fn put(&mut self, key: K, value: V) {
         self.tree.insert(key, value);
     }
@@ -103,6 +107,8 @@ mod tests {
         map.put(3, "hello");
         map.put(3, "world");
 
+        assert_eq!(Some(&"foo"), map.get(&1));
+        assert_eq!(None, map.get(&4));
         assert_eq!(3, map.size());
 
         assert_eq!(vec![&1, &2, &3], map.keys().collect::<Vec<&i32>>());
